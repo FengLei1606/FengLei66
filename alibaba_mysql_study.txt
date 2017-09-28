@@ -1,0 +1,87 @@
+
+在命令行下的数据库的基本操作：
+一 数据库 ；包括数据库的创建，查看和删除数据库的基本语法
+二 表的操作：创建表，查看表的结构，删除表，修改表，操作表的约束
+   
+   一 数据库
+(1) 创建数据库：create database database_name;
+(2) 查看数据库：show database;
+(3) 选择数据库:use database_name;
+(4) 删除数据库：drop database database_name;
+   二 表的基本操作
+（1）创建表：create table table_name(
+                      属性名 数据类型，
+
+                      ....
+
+                      属性名 数据类型
+
+                           )
+(2)查看表的结构：describe t_dept;
+   查看表的详细定义：show create table table_name;
+(3)删除表：drop table table_name;
+   删除字段：alter table table_name drop 属性名；
+(4)修改表：alter table old_table_name rename [to] new_table_name;
+   在表的最后一个位置增加字段：alter table table_name add 属性名 属性类型
+   在表的第一个位置增加字段：alter table table_name add 属性名 属性类型 first;
+   在表的指定一个字段前面增加字段：alter table table_name add 属性名 属性类型after 属性名；
+(5)修改字段：alert table table_name change 旧属性名 新属性名 旧数据类型；
+   同时修改字段名和属性名alert table table_name change 旧属性名 新属性名 新数据类型；
+(6)操作表的约束：约束字段的值不能为空not null
+                 约束字段的默认值default
+                 约束字段的值唯一UK
+                 约束字段为报表的主键PK
+                 约束字段的值自动增加auto_increment
+                 约束字段的值为表的外键 FK
+ FOR eg:
+->create database Student_database;
+->use company;
+->create table student_table(
+  ->studentNo int PK,
+  ->sName char(20),
+  ->sSex  char(5),
+  ->sEmail char(20),
+  ->sAge int 
+  ->);
+
+  C:\Users\冯雷>mysql -uroot -p1234
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student_database   |
+| sys                |
+| userinfo           |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use student_database;
+Database changed
+mysql> create student_table(
+    -> studentNo int,
+    -> sName char(20),
+    -> sSex char(5),
+    -> sage int,
+    -> sEmile char(20)，
+    -> constraint fk_studentNo foreign key(studentNo)
+    -> );
+
+mysql>show create table shudent;
++---------+--------------------------------------
+| Table   | Create Table                                                                                                                                                                                                                                                                                            |
++---------+--------------------------------------
+| shudent | CREATE TABLE `tudent_table` (
+  `sName` varchar(20) NOT NULL,
+  `studentNo` int(20) NOT NULL,
+  `sSex` varchar(5) NOT NULL,
+  `sage` int(5) NOT NULL,
+  `sEmile` varchar(20) NOT NULL,
+  PRIMARY KEY (`studentNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |
++---------+--------------------------------------
+1 row in set (0.00 sec)                     
