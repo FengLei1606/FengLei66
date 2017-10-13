@@ -1,0 +1,181 @@
+Microsoft Windows [版本 10.0.14393]
+(c) 2016 Microsoft Corporation。保留所有权利。
+
+C:\Users\冯雷>mysql -uroot -p1234
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 48
+Server version: 5.7.18-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student_database   |
+| sys                |
+| userinfo           |
+| world              |
++--------------------+
+8 rows in set (0.01 sec)
+
+mysql> create database xsgl;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student_database   |
+| sys                |
+| userinfo           |
+| world              |
+| xsgl               |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> use xsgl;
+Database changed
+//创建用户表
+mysql> create table xsgl_user(
+    -> user_id int auto_increment primary key,
+    -> user_name varchar(30) not null,
+    -> user_pwd varchar(30),
+    -> user_datatime timestamp
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+//创建专业表
+mysql> create table xsgl_major(
+    -> major_id int auto_increment primary key,
+    -> major_name varchar(30) not null unique
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+//创建课程表
+mysql> create table xsgl_course(
+    -> course_no varchar(6) primary key,
+    -> course_name varchar(30) not null unique,
+    -> course_teacher varchar(30)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+//创建学生表
+mysql> create table xsgl_student(
+    -> stud_no varchar(8) primary key,
+    ->  major_id int not null references xsgl_major(major_id),
+    -> stud_name varchar(30) not null,
+    -> stud_sex varchar(3) not null,
+    -> stud_birthDate datetime,
+    -> stud_isMember bool,
+    -> stud_address varchar(100),
+    -> stud_resume text
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+//创建成绩表
+mysql> create table xsgl_score(
+    -> stud_no varchar(8) references xsgl_student(stud_no),
+    -> course_no varchar(6) references xsgl_course(course_no),
+    -> score_score decimal(7,2) not null,
+    -> primary key (stud_no,course_no)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+//各表赋值
+mysql> insert into xsgl_user(user_name,user_pwd)values('冯雷','1234');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into xsgl_major(major_name)values('计算机科学与技术');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into xsgl_major(major_name)values('物联网导论');
+Query OK, 1 row affected (0.01 sec)
+
+
+mysql> insert into xsgl_major(major_name)values('网络安全');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into xsgl_course values('120011','C语言','熊博士');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_course values('120012','javaweb','李老师');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_course values('120013','数据结构','张老师');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into xsgl_student(stud_no,major_id,stud_name,stud_sex,stud_birthDate,stud_isMember,stud_address)values('101','张三','男','1998-01-20','1','北京');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into xsgl_student(stud_no,major_id,stud_name,stud_sex,stud_birthDate,stud_isMember,stud_address)values('101',1,'张三','男','1998-01-20',1,'北京');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_student(stud_no,major_id,stud_name,stud_sex,stud_birthDate,stud_isMember,stud_address)values('102',1,'李四','女','1998-10-24',1,'上海');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> ^C
+mysql> insert into xsgl_student(stud_no,major_id,stud_name,stud_sex,stud_birthDate,stud_isMember,stud_address)values('103',2,'王五','男','1999-01-20',1,'北京');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into xsgl_student(stud_no,major_id,stud_name,stud_sex,stud_birthDate,stud_isMember,stud_address)values('104',2,'王五','女','1998-09-20',1,'北京');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into xsgl_student(stud_no,major_id,stud_name,stud_sex,stud_birthDate,stud_isMember,stud_address)values('105',3,'冯雷','男','1997-10-24',1,'武汉');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into xsgl_score values('101','120011','80');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('101','120012','80');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into xsgl_score values('101','120013','90');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into xsgl_score values('102','120011','85');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('102','120012','79');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('102','120013','90');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('103','120011','85');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into xsgl_score values('103','120012','70');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('103','120013','96');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('104','120011','85');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into xsgl_score values('104','120012','50');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('104','120013','96');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('105','120011','100');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into xsgl_score values('105','120012','100');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into xsgl_score values('105','120013','100');
+Query OK, 1 row affected (0.01 sec)
