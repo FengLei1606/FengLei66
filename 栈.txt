@@ -1,0 +1,168 @@
+  栈：
+  栈是限制在一端进行操作的和删除的操作的线性表允许操纵的一端叫做 栈顶的
+另一端叫做 栈底。当栈中没有元素称之为 空栈。
+基本运算：
+构造空栈：Initstack(s);
+设置空栈：SetEmpty(s);
+判断是否为空栈：IsEmpty(s);
+元素进栈（压栈）：StackPush(s,x);
+元素出栈：StackPop（s）;
+读取栈顶元素：showTop(s);
+
+顺序栈：
+  顺序栈是线性逻辑顺序存储的一种，具有和顺序表同样的存储结构，由数组定义， 
+  配合下标表示的栈顶指针完成各种操作。顺序栈不允许从中间插入和删除，而且顺
+  序栈难以扩充性，一旦顺序栈创建出来就意味着栈的大小已经被确定。
+  顺序栈的定义：
+typedef int datatype;
+#define maxsize 64;
+typedef struct{
+  datatype data[maxsize];
+  int top;
+}seqstack ,*seqstackP;//顺序栈的类型定义，定义指向顺序栈的指针；
+(1)创建栈
+ void createStack(seqstack s){
+ s->top=-1;
+ int i=1;
+ int data;
+do{
+  printf("请输入栈第%d个元素"，i);
+  scanf(%d,&data);
+ if(data!=-1){
+ s->top++;
+ s->data[s->top]=data;
+ }
+ i++;
+  }while(i<maxsize&&data!=-1); //以-1作为一个结束标注
+}
+(1)设置空栈：
+void SetEmpty(seqstack *s){
+    s->top=-1;
+}
+(2)判断空栈
+int IsEmpty(seqstack *s){
+    return((s->top>=0?FALSE:TRUE));
+}
+(3)元素进栈
+seqStackP stackPush(seqStackP s,int x){
+if(s->top==maxSize-1){
+  printf("overflow!\n");
+  return null;
+  }else{
+  s->top++;
+  s->data[s->top]=x;
+  }
+  return s;
+}
+(4)元素出栈
+datatype stackPop(seqstack *s){
+  if（IsEmpty(s)）{
+  printf("underflow!\n");
+  return null;
+  }else{
+  return s->data[s->top--] //先取s->top在使p--
+ }
+}
+（5）取栈顶
+datatype stackPop(seqstack *s){
+  if（IsEmpty(s)）{
+  printf("underflow!\n");
+  return null;
+  }else{
+  return s->data[s->top] 
+ }
+}
+
+Eg:
+seqstack.h文件
+#difine maxsize 64 //定义栈的容量
+#define ture 1
+#define falst 0
+typedef struct{
+  int data[maxsize];
+  int top;
+}seqStack,*seqStackP;
+//栈的基本运算
+void createStack(seqstack s);
+void SetEmpty(seqstack *s)；
+int IsEmpty(seqstack *s)；
+seqStackP stackPush(seqStackP s,int x)；
+datatype stackPop(seqstack *s)；
+datatype stackPop(seqstack *s)；
+
+main.c文件
+#include"seqStack.h"
+int main (int argc char *arg[]){
+//建栈
+seqstackP s=(seqStackp)malloc(sizeof(seqStack));
+create(s);
+while(!isEmpty(s)){
+ printf("%d",Pop(s));
+}
+printf("\n");
+return 0;
+}
+
+链栈：
+链栈的插入和删除都是在链表的头部进行链表的底部是栈底.没有上限，链栈不用附加头节点
+typedef int datatype;//定义链栈的数据元素类型
+typedef struct{
+  datatype data;
+  struct node *next;
+}Linkstack ,*top;//链栈的类型定义，定义指向链栈栈顶的指针；
+(1)设置空栈
+setEmpty(Linkstack *top){
+  top=null;
+//top->next=null;带头节点
+}
+(2)判断空栈
+int IsEmpty(linkstack top){
+    return((s->top==null?FALSE:TRUE));
+}
+(3)元素入栈（不带头节点）；
+LinkStack *stackPush(linkstack *top,datatype x){
+linkstack *p;
+p=malloc(sizeof(linkstack));//生成一个新节点
+p->data=x;
+p->next=top;
+top==p;
+return p;
+} 
+元素入栈（带头节点）
+LinkStack *stackPush(linkstack *top,datatype x){
+linkstack *p;//生成一个辅助节点
+p=malloc(sizeof(linkstack));//生成一个新节点
+p->data=x;
+p->next=top->next;
+top->next=p;
+return p;
+} 
+(4)元素出栈
+LinkStack *stackPop（linkstack *top,datatype *x）{
+linkstack *p;//定义辅助指针
+if（top==null）{
+printf("underflow!\n");
+  return null;
+ }else{
+ *x=top->data;
+ p=top;
+ top=top->next;
+ free(p);
+return top;
+ }
+}
+ 
+Eg:
+linkstack.h文件
+#include<stdio.h>
+#include<stdlib.h>
+typedef int datatype;//定义链栈的数据元素类型
+typedef struct{
+  datatype data;
+  struct node *next;
+}Linkstack ,*top;//链栈的类型定义，定义指向链栈栈顶的指针；
+//栈的基本运算
+setEmpty(Linkstack *top)；
+int IsEmpty(linkstack top)；
+LinkStack *stackPush(linkstack *top,datatype x)；
+LinkStack *stackPop（linkstack *top,datatype *x）；
