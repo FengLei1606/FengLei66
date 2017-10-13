@@ -1,0 +1,73 @@
+队列：
+队列也是一种受限的线性表，与栈不同的是，队列是两端都受限。插入只能在表的一端进行（队头Front），删除也只能在一端进行（队尾rear）。当线性表中没有元素的时候称之为“空队”。
+（1）	队列的分类
+
+出队(队头)--A1,a2…..                      an?队尾（入队）
+	（单端队列）
+
+	出队---	?--入队
+	-?入队                                  -?出队
+	（双端队列）
+
+
+
+
+
+
+
+	（循环队列）	Rear
+Front
+
+其中rear指向队尾元素的下一个位置
+Front指向队头元素。那么初值就是rear=front；
+空队列条件：front=rear
+入队列：sq[rear+1]=x
+出队列：x=sq[front++]
+注意循环队列的假溢出
+当f==r时，队列有可能为空队或者满队
+满队判断条件：(R+1)%maxsize=f.或者用标志位来判断循环队列是否已满。
+基本运算：
+置空队：SetEmpty（q）
+判断空队：IsEmpty(P)
+判断满队：ISfULL(Q)
+入队：InQueue(q)
+出队;OutQueue(q)
+取对头：showfront(Q)
+(2)顺序队列
+Typedef int datatype;定义队列中的数据类型
+#define max Size 64;定义队列容量；
+Typedef  struct{
+   Datatype data[maxszie];
+   Int front rear;指向队头位置和队尾位置的指针
+}sq sqP顺序队列的类型定义和指向顺序队列的指针
+规定：
+a.	头指针front总是指向队头第一个元素的位置，尾指针rear总是指向队尾元素的下一个位置。
+b.	在对列操作过程中为了提高效率，以指针代替对列元素的移动，并将数组作为循环队列的操作空间
+c.	为了区别空队和满队，尾指针rear指向的位置必须为空，满队元素比数组总元素少一个。
+设置空队
+SetEmpty(Sequeue sq){
+Sq-front=sq-rear=0;
+}
+判断空队
+Int IsEmpty(sequeue sq){
+Return (sq-front==sq-sq-rear？1：0)；
+}
+元素入队
+Int Int(sq  x){
+If(sq-front==(R+1)%maxsize=f){
+Printf(“元素已满”)；
+}else{
+Sq-data[sq-rear++]=x;
+Return turn;
+}
+}
+元素出栈
+Int OutQueue(sq  x){
+If(sq-rront==sq-rear){
+Printf(‘’队列为空”)；
+Return falst;
+}else{
+X=sq-data[sq-front++];
+Return ture;
+}
+}
